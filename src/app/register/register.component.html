@@ -1,0 +1,40 @@
+<form class="example-form" [class.mat-elevation-z6]="!isActive" [formGroup]="registerForm">
+  <a routerLink="/login" routerLinkActive="active">back to login page</a>
+  <h1>SH MEMOPAD</h1>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Username" [(ngModel)]="userInfo.username" formControlName = "username">
+    <mat-error *ngIf="username.invalid && username.touched">
+      <div *ngIf = "username.errors?.required">
+          Username field can't be blank
+      </div>
+    </mat-error>
+  </mat-form-field>
+  <div formGroupName = "password">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Enter your password" type='password' [(ngModel)]="userInfo.password" formControlName = "pwd">
+      <mat-error *ngIf="password.invalid && password.touched">
+        <div *ngIf = "pwd.errors?.required">
+          Password field can't be blank
+        </div>
+        <div *ngIf = "pwd.value != confirmPwd.value">
+          pwd & confirmPwd not matched
+        </div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Confirm your password" type='password' formControlName = "confirmPwd">
+    </mat-form-field>
+  </div>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Email" [(ngModel)]="userInfo.email" formControlName = "email">
+    <mat-error *ngIf="email.invalid && email.touched">
+      <div *ngIf = "email.errors?.required">
+          Email field can't be blank
+      </div>
+      <div *ngIf = "email.errors?.pattern">
+          The email id doesn't seem right
+      </div>
+    </mat-error>
+  </mat-form-field>
+  <button mat-button color="accent" [disabled]="!registerForm.valid" (click)="register()">Register</button>
+</form>

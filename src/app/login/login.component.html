@@ -1,0 +1,27 @@
+<form class="example-form" [class.mat-elevation-z6]="!isActive" [formGroup]="loginForm">
+  <a routerLink="/register" routerLinkActive="active">Register</a>
+  <h1>SH MEMOPAD</h1>
+  
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Username" [(ngModel)]="data.username" id="username" name="username" formControlName = "username">
+    <mat-error *ngIf="username.invalid && username.touched">
+        <div *ngIf="username.errors.required">
+          Username field can't be blank
+        </div>
+    </mat-error>
+  </mat-form-field>
+  
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Enter your password" [(ngModel)]="data.password" type="password" id="password" name="password" formControlName = "password">
+    <mat-error *ngIf="password.invalid && password.touched">
+      <div *ngIf="password.errors.required">
+        Password field can't be blank
+      </div>
+    </mat-error>
+  </mat-form-field>
+  
+  <button mat-button color="accent" [disabled]="!loginForm.valid" (click)="logIn()">Login</button>
+  <mat-error *ngIf="isLoginSuccess == false">
+      username or password not matched
+  </mat-error>
+</form>

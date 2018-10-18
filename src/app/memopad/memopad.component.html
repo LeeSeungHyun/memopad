@@ -1,0 +1,75 @@
+
+<mat-toolbar id="toolbar">
+    <span>SH MEMOPAD</span>
+    <button mat-icon-button (click) = "logOut()"><i class="material-icons" >lock</i></button>
+</mat-toolbar>
+
+<div class="container">
+  <form class="example-form" [class.mat-elevation-z6]="!isActive">
+    <mat-form-field class="example-full-width" style="width:96%; padding: 0 10px">
+      <textarea matInput placeholder="write a message" type="textarea" [(ngModel)]="contentInfo.content" id="content" name="content"></textarea>
+    </mat-form-field>
+  
+    <button mat-button color="accent" (click)="write()" style="float:right" [disabled]="contentInfo.content == ''">Post</button>
+  </form>
+
+  <div *ngFor="let writing of displayWritings">
+    <mat-card class="example-card" [class.mat-elevation-z6]="!isActive">
+      <div *ngIf="writing.username == contentInfo.username">
+          <button mat-icon-button [matMenuTriggerFor]="menu" style="float:right">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editWriting(writing)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="deleteWriting(writing)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+      </div>
+    
+      <mat-card-header>
+        <h2 style="margin-top: 2px">{{writing.username}}</h2>
+        <span style="margin-top: 10px; margin-left: 12px">{{writing.createdTime | date:'fullDate'}}</span>
+      </mat-card-header>
+      <mat-card-content>
+        <div style="padding: 0 12px">
+          <div *ngIf="writing._id != _id">
+            {{writing.content}}
+          </div>
+          <!-- <ng-template #templateName>
+            <mat-form-field class="example-full-width" style="width:96%; padding: 0 10px">
+              <textarea matInput placeholder="write a message" type="textarea" [(ngModel)]="contentInfo.content" id="content" name="content">{{writing.content}}</textarea>
+            </mat-form-field>
+          </ng-template> -->
+          <div *ngIf="writing._id == _id">
+            <mat-form-field class="example-full-width" style="width:96%; padding: 0 10px">
+              <textarea matInput placeholder="write a message" type="textarea" [(ngModel)]="writing.content" id="content" name="content">{{writing.content}}</textarea>
+            </mat-form-field>
+            <button mat-button color="accent" (click)="edit(writing)" style="float:right" [disabled]="writing.content == ''">Post</button>
+          </div>
+          
+        </div>
+      </mat-card-content>
+      <mat-card-actions style="margin:0; padding:0">
+          <div *ngIf="writing._id != _id">
+            <hr style="width:96%" />
+          </div>
+          <div>
+            <button mat-icon-button (click)="isFavorite(writing)">
+              <div *ngIf="writing.isFavorite">
+                  <i class="material-icons orange">favorite</i>{{writing.favoriteCount}}
+              </div>
+              <div *ngIf="!writing.isFavorite">
+                  <i class="material-icons orange">favorite_border</i>{{writing.favoriteCount}}
+              </div>
+            </button>
+          </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+     

@@ -1,0 +1,26 @@
+.example-form {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #f5f5f5;
+    padding: 16px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+
+.example-form > h1{
+    text-align: center;
+}
+  
+.example-full-width {
+    width: 100%;
+}
+
+button{
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
+}
