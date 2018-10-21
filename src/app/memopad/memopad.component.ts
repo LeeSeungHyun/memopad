@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Inject } from '@angular/core';
+import { Component, OnInit, HostListener, Inject, trigger, state, style, transition, animate, group } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,27 @@ declare var $:any;
 @Component({
   selector: 'app-memopad',
   templateUrl: './memopad.component.html',
-  styleUrls: ['./memopad.component.css']
+  styleUrls: ['./memopad.component.css'],
+  animations: [
+    trigger('memopad', [
+      transition(':enter', [
+        style({ 
+          opacity: 0 
+        }),
+        animate('1.5s ease')
+      ]),
+      transition(':leave', [
+        group([
+          // animate('1s ease', style({
+          //   transform: 'translateX(50px)'
+          // })),
+          animate('1.5s ease', style({
+            opacity: 0
+          }))
+        ])
+      ])
+    ])
+  ]
 })
 
 export class MemopadComponent implements OnInit {
@@ -28,6 +48,7 @@ export class MemopadComponent implements OnInit {
   username: string;
   isActive: boolean;
   _id: string = null;
+  action: string;
 
   constructor(private authService: AuthService, private writeService: WriteService, 
               private router: Router, private dialog: MatDialog) { }
@@ -89,6 +110,7 @@ export class MemopadComponent implements OnInit {
   write(){
     this.writeService.writeWriting(this.contentInfo)
       .subscribe((data: Writing) => {
+        this.action = 'create';
         this.writings.unshift(data['data']);
         this.divide = Math.floor(this.writings.length / COUNTLIST);
         this.mod = this.writings.length % COUNTLIST;
@@ -120,6 +142,7 @@ export class MemopadComponent implements OnInit {
     let index = this.displayWritings.indexOf(writing);
     this.writeService.deleteWriting(writing._id)
     .subscribe((data: any) => {
+      this.action = 'delete';
       this.displayWritings.splice(index, 1);
       //console.log('delete successfully');
     },
