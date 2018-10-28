@@ -12,7 +12,7 @@ import { MatButtonModule,
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';    
 import { RouterModule, Routes } from '@angular/router';    
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -21,6 +21,7 @@ import { MemopadComponent } from './memopad/memopad.component';
 import { AuthService } from './services/auth.service';
 import { RegisterService } from './services/register.service';
 import { WriteService } from './services/write.service';
+import { TokenInterceptor } from './auth/token.interceptor';
 
 const appRoutes: Routes = [
   { path: '',   redirectTo: '/login', pathMatch: 'full' },
@@ -59,7 +60,12 @@ const appRoutes: Routes = [
   providers: [
     AuthService,
     RegisterService,
-    WriteService
+    WriteService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -15,7 +15,7 @@ export class AuthService {
   }
 
   logIn(data){
-    return this.http.post(environment.api + '/api/auth/login', data);
+    return this.http.post('/api/auth/login', data);
   }
 
   logOut(){

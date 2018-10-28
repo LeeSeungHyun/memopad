@@ -24,9 +24,6 @@ declare var $:any;
       ]),
       transition(':leave', [
         group([
-          // animate('1s ease', style({
-          //   transform: 'translateX(50px)'
-          // })),
           animate('1.5s ease', style({
             opacity: 0
           }))
@@ -152,7 +149,6 @@ export class MemopadComponent implements OnInit {
   }
 
   isFavorite(writing){
-    debugger;
     writing.isFavorite = writing.isFavorite ? false : true;
     this.writeService.isFavorite(writing._id, this.contentInfo.username)
     .subscribe((data) => {

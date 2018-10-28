@@ -10,6 +10,6 @@ export class RegisterService {
 
   register(userInfo) {
     console.log(userInfo);
-    return this.http.post(environment.api + '/api/auth/register', userInfo);
+    return this.http.post('/api/auth/register', userInfo);
   }
 }
